@@ -1,11 +1,23 @@
-@import "bootstrap/scss/functions";
-@import "bootstrap/scss/variables";
-@import "bootstrap/scss/variables-dark";
-@import "bootstrap/scss/maps";
-@import "bootstrap/scss/mixins";
-@import "bootstrap/scss/root";
-@import "bootstrap/scss/reboot";
+// @import "bootstrap/scss/functions";
+// @import "bootstrap/scss/variables";
+// @import "bootstrap/scss/variables-dark";
+// @import "bootstrap/scss/maps";
+// @import "bootstrap/scss/mixins";
+// @import "bootstrap/scss/root";
+// @import "bootstrap/scss/reboot";
+// @import "bootstrap/scss/modal";
+// @import "bootstrap/scss/buttons";
+// @import "bootstrap/scss/alert";
+// @import "bootstrap/scss/forms";
+@import "bootstrap/scss/bootstrap";
 
+.alert {
+    position: absolute;
+    top:10px;
+    z-index: 1056;
+    width:100%;
+    height:50px;
+}
 body {
     padding-top:20px;
     padding-left:10px;

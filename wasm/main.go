@@ -26,13 +26,17 @@ func scheduleWrapper() js.Func {
 			reject := args[1]
 			fmt.Printf("fetching %s", user)
 			go func() {
-				result := getSchedule(user, token)
-				pretty, err := json.MarshalIndent(result, "", "  ")
+				result, err := getSchedule(user, token)
 				if err != nil {
 					fmt.Println(err.Error())
 					reject.Invoke(err.Error())
 				}
-				resolve.Invoke(string(pretty))
+				jsonString, err := json.MarshalIndent(result, "", "  ")
+				if err != nil {
+					fmt.Println(err.Error())
+					reject.Invoke(err.Error())
+				}
+				resolve.Invoke(string(jsonString))
 			}()
 			return nil
 		})
@@ -41,6 +45,6 @@ func scheduleWrapper() js.Func {
 	})
 }
 
-func getSchedule(user string, token string) util.ReturnType {
+func getSchedule(user string, token string) (*util.MutualClasses, error) {
 	return util.GetMutualClasses(cs1.NewClient(user, token))
 }

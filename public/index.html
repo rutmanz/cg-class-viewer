@@ -1,20 +1,55 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Find My Friends</title>
-
-        <link href="./assets/index.css" rel="stylesheet">
-        <script async defer src="./assets/index.js"></script>
-
-        <link rel="apple-touch-icon" sizes="180x180" href="./static/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="./static/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="./static/favicon-16x16.png">
-        <link rel="manifest" href="./static/site.webmanifest">
-    </head>
-    <body>
-        <div id="grid" style="--grid-columns:3"></div>
-    </body>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Find My Friends</title>
+    
+    <link href="./assets/index.css" rel="stylesheet">
+    <script async defer src="./assets/index.js"></script>
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="./static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./static/favicon-16x16.png">
+    <link rel="manifest" href="./static/site.webmanifest">
+</head>
+<body>
+    <div id="grid" style="--grid-columns:3"></div>
+    <div class="alert alert-danger align-items-center" id=alert-banner role="alert" style="display:none">
+        <div id="alert-text">
+          Invalid login!
+        </div>
+      </div>
+    <div class="modal" id="login-modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginform" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="usernameInput" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="usernameInput" placeholder="rutmanz" required>
+                            <div class="invalid-feedback">
+                                You must enter a valid username
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="apiKeyInput" class="form-label">API Key</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder=ABC123 id="apiKeyInput"  aria-describedby="apiKeyDescription" required>
+                                <button type="button" id="loadTokenButton" class="btn btn-outline-secondary">Load</button>
+                            </div>
+                            <div id="apiKeyDescription" class="form-text">Press load or visit <a href=https://cs.catlin.edu/cs1api/tokens/get_token.py>https://cs.catlin.edu/cs1api/tokens/get_token.py</a></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Log in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
