@@ -40,14 +40,14 @@ $grid-max-size:calc(grid.$grid-constrained-dimension + 20px);
 @debug $grid-max-size;
 @debug var(--grid-max-size);
 @mixin page-scale($scale-factor) {
-	@media (max-width: $grid-max-size) {
-		body {
-			width: calc($scale-factor*100vw);
-			height: calc($scale-factor*100vh);
-			transform-origin: top left;
-			transform: scale(calc(100%/$scale-factor));
-		}
-	}
+	// @media (max-width: $grid-max-size) {
+	// 	body {
+	// 		width: calc($scale-factor*100vw);
+	// 		height: calc($scale-factor*100vh);
+	// 		transform-origin: top left;
+	// 		transform: scale(calc(100%/$scale-factor));
+	// 	}
+	// }
 }
 
 
