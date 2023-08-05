@@ -1,0 +1,142 @@
+@mixin grid-base {
+	height: 100%;
+	display: grid;
+	width: 100%;
+	.grid-row {
+		.grid-item.highlight-column {
+			background-color: #ffe4a0 !important;
+		}
+		.grid-item {
+			border-radius: 0;
+			position: relative;
+			padding: 0.5rem 1rem;
+			color: #212529;
+			background-color: white;
+			border: 1px solid #dee2e6;
+		}
+
+		&.highlight-included > .grid-item {
+			background-color: #f6ffa1;
+		}
+
+		display: contents;
+
+		&:not(:first-child) .grid-item:not(:first-child) {
+			display: flex;
+			justify-content: center;
+			justify-items: center;
+		}
+	}
+}
+
+@mixin vertical-labels {
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	writing-mode: vertical-rl;
+}
+$grid-template: 150px repeat(var(--grid-columns), 42px);
+$grid-constrained-dimension: calc(150px + var(--grid-columns)*42px);
+@mixin grid-layout($isHorizontal) {
+	@include grid-base;
+
+	@if ($isHorizontal) {
+		overflow-x: scroll;
+		grid-auto-flow: column;
+		grid-template-rows: $grid-template;
+		height:$grid-constrained-dimension
+	} @else {
+		grid-auto-flow: row;
+		grid-template-columns: $grid-template;
+		width:$grid-constrained-dimension
+	}
+
+	.grid-row {
+		.grid-item:not(:first-child) {
+			@if ($isHorizontal) {
+				margin-top: -1px;
+			} @else {
+				margin-left: -1px;
+			}
+		}
+
+		&:not(:first-child) .grid-item {
+			@if ($isHorizontal) {
+				margin-left: -1px;
+			} @else {
+				margin-top: -1px;
+			}
+		}
+
+		@if ($isHorizontal) {
+			&:not(:first-child) .grid-item:first-child {@include vertical-labels;}
+		} @else {
+			&:first-child .grid-item:not(:first-child) {@include vertical-labels;}
+		}
+
+		&:first-child {
+			@if ($isHorizontal) {
+				.grid-item:first-child {
+					border-top-left-radius: 5px;
+				}
+				.grid-item:last-child {
+					border-bottom-left-radius: 5px;
+				}
+			} @else {
+				.grid-item:first-child {
+					border-top-left-radius: 5px;
+				}
+				.grid-item:last-child {
+					border-top-right-radius: 5px;
+				}
+			}
+			font-weight: 700;
+		}
+
+		&:last-child {
+			@if ($isHorizontal) {
+				.grid-item:first-child {
+					border-top-right-radius: 5px;
+				}
+				.grid-item:last-child {
+					border-bottom-right-radius: 5px;
+				}
+			} @else {
+				.grid-item:first-child {
+					border-bottom-left-radius: 5px;
+				}
+				.grid-item:last-child {
+					border-bottom-right-radius: 5px;
+				}
+			}
+		}
+	}
+}
+
+
+@mixin grid-horizontal {
+	@include grid-layout($isHorizontal:true);
+
+	.grid-row:first-child {
+		.grid-item {
+			border-right-width: 3px;
+			width: 300px;
+			position: sticky;
+			left: 0;
+			z-index: 100;
+		}
+	}
+}
+
+@mixin grid-vertical {
+	@include grid-layout($isHorizontal: false);
+	.grid-row:first-child {
+		.grid-item {
+			border-bottom-width: 3px;
+			height: 300px;
+			z-index: 100;
+		}
+	}
+}
+
+

@@ -1,4 +1,4 @@
-import "./index.scss"
+import "./style/index.scss"
 import "./lib/wasm_exec"
 import $ from "jquery"
 import { loadCookies, saveCookies } from "./cookies"

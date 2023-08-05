@@ -2,7 +2,9 @@
   "scripts": {
     "build": "node build.js",
     "deploy": "rsync -a ../public/ \"$npm_config_sharedclassfinder_deploydest\"",
-    "redeploy": "npm run build && npm run deploy"
+    "deploy:dev": "rsync -a ../public/ \"$npm_config_sharedclassfinder_deploydest/dev\"",
+    "redeploy": "npm run build && npm run deploy",
+    "redeploy:dev": "npm run build && npm run deploy:dev"
   },
   "dependencies": {
     "@types/bootstrap": "^5.2.6",
