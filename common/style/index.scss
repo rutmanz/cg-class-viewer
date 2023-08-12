@@ -37,8 +37,6 @@ $grid-max-size:calc(grid.$grid-constrained-dimension + 20px);
 :root {
 	--grid-max-size: #{$grid-max-size};
 }
-@debug $grid-max-size;
-@debug var(--grid-max-size);
 @mixin page-scale($scale-factor) {
 	// @media (max-width: $grid-max-size) {
 	// 	body {
@@ -53,12 +51,12 @@ $grid-max-size:calc(grid.$grid-constrained-dimension + 20px);
 
 @media (max-aspect-ratio: 1/1) {
 	#grid {	@include grid.grid-vertical; }
-	@include page-scale(calc($grid-max-size/100vw))
+	// @include page-scale(calc($grid-max-size/100vw))
 }
 
 @media (min-aspect-ratio: 1/1) {
 	#grid {	@include grid.grid-horizontal; }
-	@include page-scale(calc($grid-max-size/100vh))
+	// @include page-scale(calc($grid-max-size/100vh))
 }
 
 

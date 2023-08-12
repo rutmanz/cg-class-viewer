@@ -1,20 +1,16 @@
-import "./style/index.scss"
+import "../common/style/index.scss"
 import "./lib/wasm_exec"
 import $ from "jquery"
 import { loadCookies, saveCookies } from "./cookies"
 import { getLoginInfo } from "./form"
-import { generateTable } from "./render"
+import { generateTable } from "../common/render"
+import { WasmResponse } from "."
 
-declare global {
-    const getSchedule: (key:string, v:string) => string
-    const Go:any
-}
 
 const alertBannerElement = $("#alert-banner")
 
+window["$"] = $
 
-
-export type WasmResponse = {classes:string[],students:{[key:string]:string[]}}
 async function main(resetCredentials:boolean=false) {
     let token:string|undefined = ""
     let username:string|undefined = "";

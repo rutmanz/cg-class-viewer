@@ -44,11 +44,11 @@ $grid-constrained-dimension: calc(150px + var(--grid-columns)*42px);
 		overflow-x: scroll;
 		grid-auto-flow: column;
 		grid-template-rows: $grid-template;
-		height:$grid-constrained-dimension
+		// height:$grid-constrained-dimension
 	} @else {
 		grid-auto-flow: row;
 		grid-template-columns: $grid-template;
-		width:$grid-constrained-dimension
+		// width:$grid-constrained-dimension
 	}
 
 	.grid-row {
@@ -69,7 +69,7 @@ $grid-constrained-dimension: calc(150px + var(--grid-columns)*42px);
 		}
 
 		@if ($isHorizontal) {
-			&:not(:first-child) .grid-item:first-child {@include vertical-labels;}
+			// &:not(:first-child) .grid-item:first-child {@include vertical-labels;}
 		} @else {
 			&:first-child .grid-item:not(:first-child) {@include vertical-labels;}
 		}

@@ -1,14 +1,23 @@
-import { WasmResponse } from "."
-import $ from "jquery"
-
-export function generateTable(data:WasmResponse) {
+export type TableInput = {
+    classes: string[];
+    students: {
+        [key: string]: string[];
+    };
+}
+export function generateTable(data:TableInput) {
     const grid = $("#grid")
+    grid.empty()
     const header = $('<div class="grid-row"><div class="grid-item" onclick="sortGridByName()"></div></div>')
     data.classes.forEach((_class, i) => {
-        header.append(`<div class="grid-item" onclick="sortGridByClass('${_class}')">${cleanClassName(_class)}</div>`)
+        header.append(`<div class="grid-item" id="class-${_class}">${cleanClassName(_class)}</div>`)
     })
     grid.append(header)
-    for (let [student, classes] of Object.entries(data.students)) {
+    data.classes.forEach((_class, i) => {
+        const element = document.getElementById(`class-${_class}`)
+        
+        element?.addEventListener("click", () => sortGridByClass(_class))
+    })
+    for (let [student, classes] of Object.entries(data.students).sort((a, b) => a[0]?.localeCompare(b[0]))) {
         const row = $(`<div class="grid-row" name="${student}"></div>`)
         row.append(`<div class="grid-item">${student}</div>`)
         let sharesClass:boolean = false
@@ -75,7 +84,6 @@ export function generateTable(data:WasmResponse) {
         
         const children = $("#grid").children() as unknown as HTMLElement[]
         const rows = children.slice(1)
-        console.log(rows)
         
         sorter(rows)
         $("#grid").get(0)!.replaceChildren(children[0], ...rows)
