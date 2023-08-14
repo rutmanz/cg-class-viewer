@@ -7,7 +7,16 @@
     <title>Veracross Mutual Class Finder</title>
   </head>
   <body>
-    Enter School ID: <input id="schoolname" type="text" style="margin-bottom:20px;"><button id="updatebutton">Refresh</button>
-    <div id="message" hidden></div>
+    <div class="container">
+      <h3 style="margin-bottom: 50px;">Class Finder Login</h3>
+      <form id="loginform">
+        <div class="form-group" style="margin-bottom: 10px;">
+          <label for="schoolCode" style="margin-bottom: 3px;">School Code</label>
+          <input type="text" class="form-control" id="schoolCode" aria-describedby="codeHelp" placeholder="school">
+          <small id="codeHelp" class="form-text text-muted">The link to your school's veracross portal should be https://portals.veracross.com/<b id="schoolnameview">school</b>/</small>
+        </div>
+        <button type="submit" class="btn btn-primary" id="loginbutton">Login</button>
+      </form>
+    </div>
   </body>
 </html>

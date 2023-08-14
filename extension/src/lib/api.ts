@@ -1,7 +1,7 @@
 import { cleanClassName } from "../../../../veracrossscraper/lib/util";
 import { parseDirectoryEntry } from "../../../../veracrossscraper/lib/parser";
 
-async function getVeracrossCookie() {
+export async function getVeracrossCookie() {
     try {
         const cookie = await chrome.cookies.get({ name: "_veracross_session", url: "https://portals.veracross.com/", });
         return cookie!.value
@@ -25,7 +25,10 @@ async function getVeracrossPage(path: string): Promise<string | undefined> {
     const text = (await resp.text()).replace(/<script>?[\S\s]+?<\/script>/mg, "")
     return text
 }
-
+export async function isValidLogin(school:string) {
+    const html = await getVeracrossPage(`https://portals.veracross.com/${school}/student/student/overview`)
+    return html != null
+}
 export async function getData(school:string) {
     const html = await getVeracrossPage(`https://portals.veracross.com/${school}/student/student/overview`)
     if (html == null) {

@@ -2,34 +2,19 @@ import { getData } from "../../lib/api";
 import { TableInput, generateTable } from "../../../../common/render";
 import jquery from "jquery"
 import { getSchool, setSchool } from "../../lib/storage";
-const message = document.getElementById("message")!
-const updatebutton = document.getElementById("updatebutton")!
-const schoolname = document.getElementById("schoolname") as HTMLInputElement
+
 window["$"] = jquery
 
 window.addEventListener("load",load)
 async function load() {
-    console.log(window["$"])
-    schoolname.value = await getSchool() ?? "catlin"
-
     updateData()
-    updatebutton.addEventListener("click", () => {
-        updateData()
-    })
-
-    schoolname.addEventListener("change", () => {
-        setSchool(schoolname.value)
-    })
 
     
     async function updateData() {
-        message.hidden = true
-        const data = await getData(schoolname.value)
+        const school = await getSchool()
+        const data = await getData(school ?? "catlin")
         if (data == null) {
-            console.log("login failed")
-            message.hidden = false;
-            message.textContent = "Please sign into Veracross"
-            $("#grid").empty()
+            window.location.assign("login.html")
             return
         }
         
