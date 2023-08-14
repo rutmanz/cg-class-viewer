@@ -1,30 +1,16 @@
-import "../../common/style/index.scss"
-import { getData } from "./api";
-import { TableInput, generateTable } from "../../common/render";
+import { getData } from "../../lib/api";
+import { TableInput, generateTable } from "../../../../common/render";
+import jquery from "jquery"
+import { getSchool, setSchool } from "../../lib/storage";
 const message = document.getElementById("message")!
 const updatebutton = document.getElementById("updatebutton")!
 const schoolname = document.getElementById("schoolname") as HTMLInputElement
+window["$"] = jquery
 
-const getStorageData = key =>
-    new Promise((resolve, reject) =>
-        chrome.storage.sync.get(key, result =>
-            chrome.runtime.lastError
-                ? reject(Error(chrome.runtime.lastError.message))
-                : resolve(result)
-        )
-    )
-
-function setStorageData(data): Promise<void> {
-    return new Promise((resolve, reject) =>
-        chrome.storage.sync.set(data, () =>
-            chrome.runtime.lastError
-                ? reject(Error(chrome.runtime.lastError.message))
-                : resolve()
-        )
-    );
-}
-(async () => {
-    schoolname.value = (await getStorageData("schoolname") as any)["schoolname"] as string ?? "catlin"
+window.addEventListener("load",load)
+async function load() {
+    console.log(window["$"])
+    schoolname.value = await getSchool() ?? "catlin"
 
     updateData()
     updatebutton.addEventListener("click", () => {
@@ -32,7 +18,7 @@ function setStorageData(data): Promise<void> {
     })
 
     schoolname.addEventListener("change", () => {
-        setStorageData({"schoolname": schoolname.value})
+        setSchool(schoolname.value)
     })
 
     
@@ -40,6 +26,7 @@ function setStorageData(data): Promise<void> {
         message.hidden = true
         const data = await getData(schoolname.value)
         if (data == null) {
+            console.log("login failed")
             message.hidden = false;
             message.textContent = "Please sign into Veracross"
             $("#grid").empty()
@@ -62,4 +49,4 @@ function setStorageData(data): Promise<void> {
             console.error(e)
         }
     }
-})()
+}

@@ -1,5 +1,5 @@
-import { cleanClassName } from "../../../veracrossscraper/lib/util";
-import { parseDirectoryEntry } from "../../../veracrossscraper/lib/parser";
+import { cleanClassName } from "../../../../veracrossscraper/lib/util";
+import { parseDirectoryEntry } from "../../../../veracrossscraper/lib/parser";
 
 async function getVeracrossCookie() {
     try {
@@ -31,6 +31,7 @@ export async function getData(school:string) {
     if (html == null) {
         return null;
     }
+    console.log("loading overview")
     const dom = $(html)
 
     const lists = dom.find(".vx-list.course-list")

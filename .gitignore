@@ -3,3 +3,5 @@ public/assets/index.css
 public/assets/index.js
 public/assets/index.wasm
 test_data.json
+extension/dist
+extension/pkg
