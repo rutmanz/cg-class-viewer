@@ -16,9 +16,14 @@ window.addEventListener("load",async () => {
     let cookiePollLoop;
     let veracrossTab:Window;
     schoolname.value = await getSchool() ?? ""
-    schoolnameview.textContent = schoolname.value || "school"
+    schoolnameview.textContent = schoolname.value || "your_school_name"
     checkLogin()
-    schoolname.addEventListener("input", () => {schoolnameview.textContent = schoolname.value || "school"})
+    schoolname.addEventListener("input", () => {
+        schoolnameview.textContent = schoolname.value || "your_school_name"
+        if (schoolname.value != "") {
+            schoolname.classList.remove("is-invalid")
+        }
+    })
     schoolname.addEventListener("change", () => {
         setSchool(schoolname.value)
         
@@ -28,6 +33,11 @@ window.addEventListener("load",async () => {
 
     form.addEventListener("submit", (event)=> {
         event.preventDefault()
+        if (schoolname.value == null || schoolname.value == "") {
+            schoolname.classList.add("is-invalid")
+            
+            return
+        }
         veracrossTab = window.open(`https://portals.veracross.com/${schoolname.value}`, "_blank")!
         veracrossTab.focus()
         clearInterval(cookiePollLoop)

@@ -1,6 +1,8 @@
 import { cleanClassName } from "../../../../veracrossscraper/lib/util";
 import { parseDirectoryEntry } from "../../../../veracrossscraper/lib/parser";
 
+
+const parser = new DOMParser();
 export async function getVeracrossCookie() {
     try {
         const cookie = await chrome.cookies.get({ name: "_veracross_session", url: "https://portals.veracross.com/", });
@@ -23,6 +25,7 @@ async function getVeracrossPage(path: string): Promise<string | undefined> {
     }
 
     const text = (await resp.text()).replace(/<script>?[\S\s]+?<\/script>/mg, "")
+    
     return text
 }
 export async function isValidLogin(school:string) {
@@ -30,12 +33,14 @@ export async function isValidLogin(school:string) {
     return html != null
 }
 export async function getData(school:string) {
+    console.log("starting")
     const html = await getVeracrossPage(`https://portals.veracross.com/${school}/student/student/overview`)
     if (html == null) {
         return null;
     }
     console.log("loading overview")
-    const dom = $(html)
+    
+    const dom = $(parser.parseFromString(html, "text/html").body)
 
     const lists = dom.find(".vx-list.course-list")
     const classes: { name: string, id: string }[] = []
@@ -54,7 +59,7 @@ export async function getData(school:string) {
         const html = await getVeracrossPage(`https://classes.veracross.com/${school}/course/${id}/website/directory`)
         let dom;
         try {
-            dom = $(html!)
+            dom = $(parser.parseFromString(html!, "text/html").body)
         } catch (e) {
             console.warn(e)
         }
