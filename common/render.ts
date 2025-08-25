@@ -1,5 +1,6 @@
 export type TableInput = {
     classes: string[];
+    ignoredClasses?: string[]
     students: {
         [key: string]: string[];
     };
@@ -14,21 +15,36 @@ export function generateTable(data:TableInput) {
     </div>`)
 
     data.classes.forEach((_class, i) => {
-        header.append(`<div class="grid-item" id="class-${_class}"><div class=class-label>${cleanClassName(_class)}</div></div>`)
+        console.log(data.ignoredClasses?.includes(_class), data.ignoredClasses)
+        header.append(`<div class="grid-item" id="class-${_class}"><button>-</button><div class="class-label ${data.ignoredClasses?.includes(_class)? "disabled": ""}">${cleanClassName(_class)}</div></div>`)
     })
     grid.append(header)
     data.classes.forEach((_class, i) => {
         const element = document.getElementById(`class-${_class}`)
         
         element?.addEventListener("click", () => sortGridByClass(_class))
+
+        const child = element?.querySelector("button")
+        child?.addEventListener("click", (e) => {
+            e.preventDefault()
+            data.ignoredClasses ??= []
+            const index = data.ignoredClasses.indexOf(_class)
+            if (index == -1) {
+                data.ignoredClasses.push(_class)
+            } else {
+                data.ignoredClasses.splice(index, 1)
+            }
+            generateTable(data)
+        })
     })
     document.getElementById("header-name")!.addEventListener("click", () => sortGridByName())
     document.getElementById("header-count")!.addEventListener("click", () => sortGridByCount())
 
     for (let [student, classes] of Object.entries(data.students).sort((a, b) => a[0]?.localeCompare(b[0]))) {
-        const row = $(`<div class="grid-row" name="${student}" data-count="${classes.length}"></div>`)
+        const classCount = classes.filter((className) => !data.ignoredClasses?.includes(className)).length
+        const row = $(`<div class="grid-row" name="${student}" data-count="${classCount}"></div>`)
         row.append(`<div class="grid-item">${student}</div>`)
-        row.append(`<div class="grid-item">${classes.length}</div>`)
+        row.append(`<div class="grid-item">${classCount}</div>`)
         let sharesClass:boolean = false
         data.classes.forEach((_class, i) => {
             if (classes.includes(_class)) { 
@@ -41,13 +57,9 @@ export function generateTable(data:TableInput) {
         if (sharesClass) {
             grid.append(row)
         }
-        
-        
     }
     let activeSortKey:string|null = null
     const baseSort = (a,b) => {
-        setHighlight(activeSortKey, a, false)
-        setHighlight(activeSortKey, b, false)
         return a.getAttribute("name")!.localeCompare(b.getAttribute("name")!)
     }
     function sortGridByName() {
@@ -78,7 +90,6 @@ export function generateTable(data:TableInput) {
     }
     function sortGridByClass(name:string) {
         if (name == activeSortKey) {return}
-        $("#grid").children().get(0)!.children[data.classes.indexOf(name)+2].classList.add("highlight-column")
         sortGrid((rows) => {
             const hasClass = (student:string|null) => data.students[student as string]?.includes(name)
             rows.sort(baseSort).sort((a, b) => {
@@ -93,11 +104,11 @@ export function generateTable(data:TableInput) {
             });
             activeSortKey = name
         })
+        $("#grid").children().get(0)!.children[data.classes.indexOf(name)+2].classList.add("highlight-column")
     }
     function sortGrid(sorter:(rows:HTMLElement[]) => void) {
-        if (activeSortKey) {
-            $("#grid").children().get(0)!.children[data.classes.indexOf(activeSortKey)+2].classList.remove("highlight-column")
-        }
+        document.querySelectorAll(".highlight-column").forEach((element) => {element.classList.remove("highlight-column")})
+        document.querySelectorAll(".highlight-included").forEach((element) => {element.classList.remove("highlight-included")})
 
         $("#grid").scrollLeft(0)
         

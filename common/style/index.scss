@@ -53,4 +53,8 @@ body {
 // 	// @include page-scale(calc($grid-max-size/100vh))
 // }
 
+.class-label.disabled {
+	color:#b3b3b3;
+	font-style:italic
+}
 

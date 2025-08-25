@@ -17,6 +17,7 @@
 	.grid-row:first-child .grid-item.highlight-column {
 		filter: brightness(85%);
 	}
+	
 	.grid-row:nth-child(even) {
 		&.highlight-included > .grid-item {
 			$color: hsl(261, 65%, 90%);
@@ -160,6 +161,7 @@ $grid-template: 200px repeat(var(--grid-columns), 42px);
 			border-bottom-width: 3px;
 			max-height: 350px;
 			.class-label {
+				margin-top:1em;
 				height: max-content;
 			}
 			z-index: 100;
