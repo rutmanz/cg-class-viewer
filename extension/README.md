@@ -1,6 +1,10 @@
 ## Building
-npm 9.6.6
-node 20.2.0
+bun 1.2.20
+node 23.6.0
 
-Run `npm install` to install the required dependencies
-use `npm run package` to create a packaged extension at `pkg/latest-firefox.zip`
+Run `bun install` to install the required dependencies
+use `bun build.mjs package` to create a packaged extension at `pkg/latest-firefox.zip`
+
+All source code can be found in `./src`
+
+Note that the `version` in the manifest will be different from the submitted addon code as the build version is autoincremented

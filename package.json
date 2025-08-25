@@ -1,6 +1,9 @@
 {
   "dependencies": {
-    "@types/jquery": "^3.5.16",
+    "@types/jquery": "^3.5.33",
     "jquery": "^3.7.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.1.4"
   }
 }

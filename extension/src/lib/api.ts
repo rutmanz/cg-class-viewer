@@ -47,7 +47,7 @@ export async function getData(school:string) {
     lists.each((_, list) => {
         $(list).find("a.course-description").each((i, element) => {
             const url: string = element["href"]
-            classes.push({ id: url.match(/\/course\/(\d{1,4})\/website/)![1], name: cleanClassName(element.textContent!.trim()) })
+            classes.push({ id: url.match(/\/course\/(\d+)\/website/)![1], name: cleanClassName(element.textContent!.trim()) })
         })
     })
 

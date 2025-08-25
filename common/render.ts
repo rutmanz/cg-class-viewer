@@ -115,6 +115,6 @@ export function generateTable(data:TableInput) {
 }
 
 
-function cleanClassName(name:string) {
-    return name.replace(/\- \d+/, "").replace(/\(.+\)/, "").replace(/:.+$/, "")
+export function cleanClassName(name:string) {
+    return name.replace(/\- \d+/, "").replace(/\(.+\)/, "")
 }
