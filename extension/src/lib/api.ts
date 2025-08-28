@@ -1,7 +1,7 @@
 import { cleanClassName } from "../../../../veracrossscraper/lib/util";
 import { parseDirectoryEntry } from "../../../../veracrossscraper/lib/parser";
 
-
+export type StudentEntryMap = Record<string, {photo:string, classes:string[]}>
 const parser = new DOMParser();
 export async function getVeracrossCookie() {
     try {
@@ -54,7 +54,7 @@ export async function getData(school:string) {
 
 
 
-    const entries: { [key: string]: string[] } = {}
+    const entries: StudentEntryMap = {}
     await Promise.all(classes.map(async ({ name, id }) => {
         const html = await getVeracrossPage(`https://classes.veracross.com/${school}/course/${id}/website/directory`)
         let dom;
@@ -67,8 +67,8 @@ export async function getData(school:string) {
 
         dom.find(".directory-Entry").each((i, element) => {
             const entry = parseDirectoryEntry($, element)
-            entries[entry.name] ??= []
-            entries[entry.name].push(name)
+            entries[entry.name] ??= {photo:entry.photo, classes:[]}
+            entries[entry.name].classes.push(name)
         })
     }))
     console.log(entries)

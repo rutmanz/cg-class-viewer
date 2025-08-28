@@ -84,7 +84,7 @@ async function pkg(...browsers) {
 if (process.argv[2] == "package") {
 	pkg("firefox", "chrome");
 } else {
-	buildAll("chrome");
+	buildAll("firefox");
 }
 
 function buildAll(...browsers) {

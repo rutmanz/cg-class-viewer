@@ -35,15 +35,25 @@
 			color: #212529;
 			background-color: white;
 			border: 1px solid #e3e3e3;
+			display:flex;
+			flex-direction: row;
+			gap:5px;
+			align-items:center;
+			justify-content:center;
+			&:first-child {
+				justify-content:start;
+			}
+		}
+		img {
+			height:32px;
+			margin-right: 5px;
+			display:inline-block;
+			&:hover {
+				height:150px;
+			}
 		}
 
 		display: contents;
-
-		&:not(:first-child) .grid-item:not(:first-child) {
-			display: flex;
-			justify-content: center;
-			justify-items: center;
-		}
 	}
 }
 
@@ -53,7 +63,7 @@
 	align-items: center;
 	writing-mode: vertical-rl;
 }
-$grid-template: 200px repeat(var(--grid-columns), 42px);
+$grid-template: 260px repeat(var(--grid-columns), 42px);
 @mixin grid-layout($isHorizontal) {
 	@include grid-base;
 

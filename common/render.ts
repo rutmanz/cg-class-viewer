@@ -1,8 +1,8 @@
+import { StudentEntryMap } from "../extension/src/lib/api";
+
 export type TableInput = {
     classes: string[];
-    students: {
-        [key: string]: string[];
-    };
+    students: StudentEntryMap;
 }
 export function generateTable(data:TableInput) {
     const grid = $("#grid")
@@ -25,9 +25,9 @@ export function generateTable(data:TableInput) {
     document.getElementById("header-name")!.addEventListener("click", () => sortGridByName())
     document.getElementById("header-count")!.addEventListener("click", () => sortGridByCount())
 
-    for (let [student, classes] of Object.entries(data.students).sort((a, b) => a[0]?.localeCompare(b[0]))) {
+    for (let [student, {classes, photo}] of Object.entries(data.students).sort((a, b) => a[0]?.localeCompare(b[0]))) {
         const row = $(`<div class="grid-row" name="${student}" data-count="${classes.length}"></div>`)
-        row.append(`<div class="grid-item">${student}</div>`)
+        row.append(`<div class="grid-item"><img src="${photo}" />${student}</div>`)
         row.append(`<div class="grid-item">${classes.length}</div>`)
         let sharesClass:boolean = false
         data.classes.forEach((_class, i) => {
@@ -80,10 +80,10 @@ export function generateTable(data:TableInput) {
         if (name == activeSortKey) {return}
         $("#grid").children().get(0)!.children[data.classes.indexOf(name)+2].classList.add("highlight-column")
         sortGrid((rows) => {
-            const hasClass = (student:string|null) => data.students[student as string]?.includes(name)
+            const hasClass = (student:string) => data.students[student]?.classes?.includes(name)
             rows.sort(baseSort).sort((a, b) => {
-                const aHas = hasClass(a.getAttribute("name"))
-                const bHas = hasClass(b.getAttribute("name"))
+                const aHas = hasClass(a.getAttribute("name") ?? "")
+                const bHas = hasClass(b.getAttribute("name") ?? "")
                 setHighlight(name, a, aHas)
                 setHighlight(name, b, bHas)
                 
